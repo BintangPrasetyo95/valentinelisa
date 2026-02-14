@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lisa ku tersayang ♥</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, 
+                #000000 0%, 
+                #000000 30%, 
+                #ffffff 30%, 
+                #ffffff 70%, 
+                #000000 70%, 
+                #000000 100%
+            );
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .heart-bg {
+            position: fixed;
+            width: 100%;
+            top: 30%;
+            height: 40%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.5);
+            animation: float-up 15s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(calc(40vh)) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(-40vh)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            width: 90%;
+            background: rgba(255, 240, 245, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 50px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .heart-icon {
+            font-size: 80px;
+            color: #e74c3c;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(1.1);
+            }
+            20%, 40% {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #e74c3c;
+            margin: 20px 0;
+            font-weight: normal;
+            letter-spacing: 2px;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .date {
+            font-size: 18px;
+            color: #7f8c8d;
+            font-style: italic;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .letter-content {
+            line-height: 2;
+            color: #2c3e50;
+            font-size: 18px;
+            text-align: justify;
+            margin: 30px 0;
+        }
+
+        .letter-content p {
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeInParagraph 1s ease-out forwards;
+        }
+
+        .letter-content p:nth-child(1) { animation-delay: 0.5s; }
+        .letter-content p:nth-child(2) { animation-delay: 1s; }
+        .letter-content p:nth-child(3) { animation-delay: 1.5s; }
+        .letter-content p:nth-child(4) { animation-delay: 2s; }
+        .letter-content p:nth-child(5) { animation-delay: 2.5s; }
+        .letter-content p:nth-child(6) { animation-delay: 3s; }
+
+        @keyframes fadeInParagraph {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+            font-style: italic;
+            position: relative;
+            display: inline-block;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+            font-size: 24px;
+            color: #e74c3c;
+            font-style: italic;
+            animation: fadeIn 3.5s ease-out;
+        }
+
+        .signature::before {
+            content: "Milikmu selalu, yang kamu sayangi, dan yang menyayangimu,";
+            display: block;
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .love-quotes {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fd79a8 100%);
+            border-radius: 20px;
+            text-align: center;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .love-quotes p {
+            font-size: 20px;
+            color: #2d3436;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        /* Rose decoration */
+        .rose {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.2;
+            animation: rotate 20s linear infinite;
+        }
+
+        .rose:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .rose:nth-child(2) { top: 20%; right: 8%; animation-delay: 5s; }
+        .rose:nth-child(3) { bottom: 15%; left: 10%; animation-delay: 10s; }
+        .rose:nth-child(4) { bottom: 25%; right: 5%; animation-delay: 15s; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+            
+            .letter-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="container">
+        <!-- Rose decorations -->
+        <div class="rose">🌹</div>
+        <div class="rose">🌹</div>
+        <div class="rose">🌹</div>
+        <div class="rose">🌹</div>
+
+        <div class="header">
+            <div class="heart-icon">♥</div>
+            <h1>Lisa, My Beloved</h1>
+            <p class="date">Valentine's Day 2026</p>
+        </div>
+
+        <div class="letter-content">
+            <p>
+                Untuk lisa tersayangggg,
+            </p>
+            
+            <p>
+                Maaf yaa hari ini aku sibuk bangettt, tapi aku tu pengen banget urusan urusan ini cepet kelar, semakin cepat kelar semakin cepat aku bisa bareng kamuuuuu, <span class="highlight">Setiap hari aku bangun dengan rasa makin cinta ke kamuuuuuuuu</span>, aku gaakan pernah berhenti <span class="highlight">sayang sama kamuuuuuu</span>, Kuharap masa depan cerah buat kita berduaa wwwwwww.
+            </p>
+        </div>
+
+        <div class="signature">
+            Tatang
+        </div>
+
+        <div class="love-quotes">
+            <p>"In a sea of people, my eyes will always search for you."</p>
+            <p>♥</p>
+        </div>
+    </div>
+
+    <script>
+        const heartBg = document.getElementById('heartBg');
+        const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartBg.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        setInterval(createHeart, 50);
+
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createHeart, i * 200);
+        }
+
+        // Create random sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        setInterval(createSparkle, 100);
+    </script>
+</body>
+</html>
