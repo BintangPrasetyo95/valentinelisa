@@ -12,6 +12,63 @@
             box-sizing: border-box;
         }
 
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preloader-dot {
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .preloader-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .preloader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .preloader-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-20px);
+            }
+        }
+
         body {
             font-family: 'Georgia', serif;
             background: linear-gradient(to bottom,
@@ -606,39 +663,25 @@
             }
         }
 
-        .back-button {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            background: rgba(231, 76, 60, 0.9);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
+        .container-back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 32px;
+            color: rgba(231, 76, 60, 0.6);
             cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            opacity: 0;
-            pointer-events: none;
-            font-family: 'Georgia', serif;
+            user-select: none;
+            z-index: 10;
         }
 
-        .back-button.visible {
-            opacity: 1;
-            pointer-events: auto;
+        .container-back-arrow:hover {
+            color: rgba(231, 76, 60, 1);
+            transform: translateX(-5px);
         }
 
-        .back-button:hover {
-            background: rgba(192, 57, 43, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .back-button:active {
-            transform: translateY(0);
+        .container-back-arrow:active {
+            transform: translateX(-8px);
         }
 
         .content-wrapper {
@@ -730,11 +773,10 @@
                 height: 60px;
             }
 
-            .back-button {
-                top: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 14px;
+            .container-back-arrow {
+                top: 15px;
+                left: 15px;
+                font-size: 28px;
             }
         }
 
@@ -776,18 +818,23 @@
                 font-size: 16px;
             }
 
-            .back-button {
-                top: 15px;
-                left: 15px;
-                padding: 8px 16px;
-                font-size: 13px;
+            .container-back-arrow {
+                top: 12px;
+                left: 12px;
+                font-size: 24px;
             }
         }
     </style>
 </head>
 
 <body>
-    <button class="back-button" id="backButton">← Back to Envelope</button>
+    <div class="preloader" id="preloader">
+        <div class="preloader-dots">
+            <div class="preloader-dot"></div>
+            <div class="preloader-dot"></div>
+            <div class="preloader-dot"></div>
+        </div>
+    </div>
 
     <div class="envelope-wrapper" id="envelopeWrapper">
         <div class="envelope" id="envelope">
@@ -807,6 +854,8 @@
 
     <div class="content-wrapper" id="contentWrapper">
         <div class="container">
+            <div class="container-back-arrow" id="backArrow">←</div>
+
             <div class="rose">🌹</div>
             <div class="rose">🌹</div>
             <div class="rose">🌹</div>
@@ -843,17 +892,56 @@
         </div>
 
         <script>
+            const preloader = document.getElementById('preloader');
             const envelope = document.getElementById('envelope');
             const envelopeWrapper = document.getElementById('envelopeWrapper');
             const contentWrapper = document.getElementById('contentWrapper');
             const heartBg = document.getElementById('heartBg');
-            const backButton = document.getElementById('backButton');
+            const backArrow = document.getElementById('backArrow');
             const loveQuotes = document.querySelector('.love-quotes');
 
             let heartInterval;
             let imageInterval;
             let sparkleInterval;
             let isAnimating = false;
+
+            const imagePlaceholders = [
+                'https://via.placeholder.com/150/FF69B4/FFFFFF?text=Image+1',
+                'https://via.placeholder.com/150/FFB6C1/FFFFFF?text=Image+2',
+                'https://via.placeholder.com/150/FFC0CB/FFFFFF?text=Image+3',
+                'https://via.placeholder.com/150/FF1493/FFFFFF?text=Image+4',
+                'https://via.placeholder.com/150/C71585/FFFFFF?text=Image+5',
+                'https://via.placeholder.com/150/DB7093/FFFFFF?text=Image+6'
+            ];
+
+            function preloadImages() {
+                return new Promise((resolve) => {
+                    let loadedCount = 0;
+                    const totalImages = imagePlaceholders.length;
+
+                    if (totalImages === 0) {
+                        resolve();
+                        return;
+                    }
+
+                    imagePlaceholders.forEach((src) => {
+                        const img = new Image();
+                        img.onload = img.onerror = () => {
+                            loadedCount++;
+                            if (loadedCount === totalImages) {
+                                resolve();
+                            }
+                        };
+                        img.src = src;
+                    });
+                });
+            }
+
+            preloadImages().then(() => {
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                }, 500);
+            });
 
             function stopAllAnimations() {
                 if (heartInterval) clearInterval(heartInterval);
@@ -883,7 +971,6 @@
                 setTimeout(() => {
                     envelopeWrapper.classList.add('hidden');
                     contentWrapper.classList.add('visible');
-                    backButton.classList.add('visible');
                     startAllAnimations();
 
                     for (let i = 0; i < 20; i++) {
@@ -897,14 +984,13 @@
                 }, 2000);
             });
 
-            backButton.addEventListener('click', function () {
+            backArrow.addEventListener('click', function () {
                 if (isAnimating) return;
                 isAnimating = true;
 
                 stopAllAnimations();
 
                 contentWrapper.classList.remove('visible');
-                backButton.classList.remove('visible');
 
                 setTimeout(() => {
                     envelopeWrapper.classList.remove('hidden');
@@ -963,27 +1049,36 @@
             function createExplosionImage(x, y) {
                 const image = document.createElement('img');
                 image.className = 'explosion-image';
-                image.src = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
-                image.style.left = x + 'px';
-                image.style.top = y + 'px';
+                const imageSrc = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
 
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 200 + Math.random() * 400;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance - 100;
-                const rotation = Math.random() * 720 - 360;
+                image.onload = function () {
+                    image.style.left = x + 'px';
+                    image.style.top = y + 'px';
 
-                image.style.setProperty('--tx', tx + 'px');
-                image.style.setProperty('--ty', ty + 'px');
-                image.style.setProperty('--rotation', rotation + 'deg');
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 200 + Math.random() * 400;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance - 100;
+                    const rotation = Math.random() * 720 - 360;
 
-                image.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
+                    image.style.setProperty('--tx', tx + 'px');
+                    image.style.setProperty('--ty', ty + 'px');
+                    image.style.setProperty('--rotation', rotation + 'deg');
 
-                document.body.appendChild(image);
+                    image.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
 
-                setTimeout(() => {
-                    image.remove();
-                }, 1500);
+                    document.body.appendChild(image);
+
+                    setTimeout(() => {
+                        image.remove();
+                    }, 1500);
+                };
+
+                image.onerror = function () {
+                    console.log('Image failed to load:', imageSrc);
+                };
+
+                image.src = imageSrc;
             }
 
             const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
@@ -1002,15 +1097,6 @@
                     heart.remove();
                 }, 20000);
             }
-
-            const imagePlaceholders = [
-                'https://via.placeholder.com/150/FF69B4/FFFFFF?text=Image+1',
-                'https://via.placeholder.com/150/FFB6C1/FFFFFF?text=Image+2',
-                'https://via.placeholder.com/150/FFC0CB/FFFFFF?text=Image+3',
-                'https://via.placeholder.com/150/FF1493/FFFFFF?text=Image+4',
-                'https://via.placeholder.com/150/C71585/FFFFFF?text=Image+5',
-                'https://via.placeholder.com/150/DB7093/FFFFFF?text=Image+6'
-            ];
 
             function createFloatingImage() {
                 const image = document.createElement('img');
