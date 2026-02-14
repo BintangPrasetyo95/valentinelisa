@@ -842,7 +842,7 @@
             <div class="envelope-body"></div>
             <div class="envelope-paper">
                 <div class="envelope-paper-heart">♥</div>
-                <div class="envelope-paper-text">For You</div>
+                <div class="envelope-paper-text">14 Feb 2026</div>
             </div>
             <div class="envelope-flap"></div>
             <div class="envelope-seal">L♥T</div>
@@ -905,26 +905,65 @@
             let sparkleInterval;
             let isAnimating = false;
 
-            const imagePlaceholders = [
-                'https://via.placeholder.com/150/FF69B4/FFFFFF?text=Image+1',
-                'https://via.placeholder.com/150/FFB6C1/FFFFFF?text=Image+2',
-                'https://via.placeholder.com/150/FFC0CB/FFFFFF?text=Image+3',
-                'https://via.placeholder.com/150/FF1493/FFFFFF?text=Image+4',
-                'https://via.placeholder.com/150/C71585/FFFFFF?text=Image+5',
-                'https://via.placeholder.com/150/DB7093/FFFFFF?text=Image+6'
+            const imageLiza = [
+                './images/1.jpg',
+                './images/2.jpg',
+                './images/3.jpg',
+                './images/4.jpg',
+                './images/5.jpg',
+                './images/6.jpg',
+                './images/7.jpg',
+                './images/8.jpg',
+                './images/9.jpg',
+                './images/10.jpg',
+                './images/11.jpg',
+                './images/12.jpg',
+                './images/13.jpg',
+                './images/14.jpg',
+                './images/15.jpg',
+                './images/16.jpg',
+                './images/17.jpg',
+                './images/18.jpg',
+                './images/19.jpg',
+                './images/20.jpg',
+                './images/21.jpg',
+                './images/22.jpg',
+                './images/23.jpg',
+                './images/24.jpg',
+                './images/25.jpg',
+                './images/26.jpg',
+                './images/27.jpg',
+                './images/28.jpg',
+                './images/29.jpg',
+                './images/30.jpg',
+                './images/31.jpeg',
+                './images/32.jpeg',
+                './images/33.jpeg',
+                './images/34.jpeg',
+                './images/35.jpeg',
+                './images/36.jpeg',
+                './images/37.jpeg',
+                './images/38.jpeg',
+                './images/39.jpeg',
+                './images/40.jpeg',
+                './images/41.jpeg',
+                './images/42.jpeg',
+                './images/43.jpeg',
+                './images/44.jpeg',
+                './images/45.jpeg'
             ];
 
             function preloadImages() {
                 return new Promise((resolve) => {
                     let loadedCount = 0;
-                    const totalImages = imagePlaceholders.length;
+                    const totalImages = imageLiza.length;
 
                     if (totalImages === 0) {
                         resolve();
                         return;
                     }
 
-                    imagePlaceholders.forEach((src) => {
+                    imageLiza.forEach((src) => {
                         const img = new Image();
                         img.onload = img.onerror = () => {
                             loadedCount++;
@@ -1049,7 +1088,7 @@
             function createExplosionImage(x, y) {
                 const image = document.createElement('img');
                 image.className = 'explosion-image';
-                const imageSrc = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
+                const imageSrc = imageLiza[Math.floor(Math.random() * imageLiza.length)];
 
                 image.onload = function () {
                     image.style.left = x + 'px';
@@ -1101,7 +1140,7 @@
             function createFloatingImage() {
                 const image = document.createElement('img');
                 image.className = 'floating-image';
-                image.src = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
+                image.src = imageLiza[Math.floor(Math.random() * imageLiza.length)];
                 image.style.left = Math.random() * 100 + '%';
                 image.style.animationDuration = (Math.random() * 10 + 15) + 's';
                 image.style.animationDelay = Math.random() * 5 + 's';
