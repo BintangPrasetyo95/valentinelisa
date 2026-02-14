@@ -30,6 +30,7 @@
             position: relative;
         }
 
+        /* Floating hearts background - only in white section */
         .heart-bg {
             position: fixed;
             width: 100%;
@@ -65,6 +66,34 @@
             }
         }
 
+        .floating-image {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            animation: float-up-image 20s infinite;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+        }
+
+        @keyframes float-up-image {
+            0% {
+                transform: translateY(calc(40vh)) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(calc(-40vh)) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
         .container {
             position: relative;
             z-index: 1;
@@ -76,6 +105,8 @@
             padding: 60px 50px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
             animation: fadeIn 1.5s ease-out;
+            margin-top: 80px;
+            margin-bottom: 80px;
         }
 
         @keyframes fadeIn {
@@ -261,27 +292,333 @@
             }
         }
 
+        /* Envelope styles */
+        .envelope-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, 
+                #000000 0%, 
+                #000000 30%, 
+                #ffffff 30%, 
+                #ffffff 70%, 
+                #000000 70%, 
+                #000000 100%
+            );
+            background-attachment: fixed;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .envelope-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f5f5dc;
+            border: 3px solid #d4af37;
+            border-radius: 5px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #e74c3c;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+            z-index: 3;
+        }
+
+        .envelope-flap::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 147px solid transparent;
+            border-right: 147px solid transparent;
+            border-bottom: 97px solid #c0392b;
+            top: 3px;
+            left: -147px;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #e8d4a0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .envelope-letter {
+            position: absolute;
+            width: 90%;
+            height: 85%;
+            background: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 3px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #e74c3c;
+            transition: transform 0.8s ease;
+        }
+
+        .envelope.open .envelope-letter {
+            transform: translate(-50%, -150%);
+        }
+
+        .envelope-seal {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #d4af37;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #8b0000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope.open .envelope-seal {
+            opacity: 0;
+        }
+
+        .click-text {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #e74c3c;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .content-wrapper {
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .content-wrapper.visible {
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .container {
-                padding: 40px 30px;
+                padding: 40px 25px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+                width: 95%;
+                border-radius: 20px;
             }
             
             h1 {
-                font-size: 36px;
+                font-size: 32px;
+                letter-spacing: 1px;
             }
             
             .letter-content {
+                font-size: 16px;
+                line-height: 1.8;
+            }
+
+            .heart-icon {
+                font-size: 60px;
+            }
+
+            .date {
+                font-size: 16px;
+            }
+
+            .signature {
+                font-size: 20px;
+            }
+
+            .signature::before {
+                font-size: 14px;
+            }
+
+            .love-quotes {
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            .love-quotes p {
+                font-size: 18px;
+            }
+
+            .rose {
+                font-size: 30px;
+            }
+
+            .envelope {
+                width: 250px;
+                height: 166px;
+            }
+
+            .envelope-flap {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-bottom: 83px solid #e74c3c;
+            }
+
+            .envelope-flap::before {
+                border-left: 122px solid transparent;
+                border-right: 122px solid transparent;
+                border-bottom: 80px solid #c0392b;
+                left: -122px;
+            }
+
+            .envelope-back {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-top: 83px solid #e8d4a0;
+            }
+
+            .envelope-letter {
+                font-size: 45px;
+            }
+
+            .envelope-seal {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .click-text {
+                font-size: 20px;
+            }
+
+            .floating-image {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .letter-content {
+                font-size: 15px;
+            }
+
+            .heart-icon {
+                font-size: 50px;
+            }
+
+            .envelope {
+                width: 220px;
+                height: 146px;
+            }
+
+            .envelope-flap {
+                border-left: 110px solid transparent;
+                border-right: 110px solid transparent;
+                border-bottom: 73px solid #e74c3c;
+            }
+
+            .envelope-flap::before {
+                border-left: 107px solid transparent;
+                border-right: 107px solid transparent;
+                border-bottom: 70px solid #c0392b;
+                left: -107px;
+            }
+
+            .envelope-back {
+                border-left: 110px solid transparent;
+                border-right: 110px solid transparent;
+                border-top: 73px solid #e8d4a0;
+            }
+
+            .love-quotes p {
                 font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Floating hearts background -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="envelope-letter">♥</div>
+            <div class="envelope-base"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-seal">L♥T</div>
+        </div>
+        <div class="click-text">Click Me!</div>
+    </div>
+
     <div class="heart-bg" id="heartBg"></div>
 
+    <div class="content-wrapper" id="contentWrapper">
     <div class="container">
-        <!-- Rose decorations -->
         <div class="rose">🌹</div>
         <div class="rose">🌹</div>
         <div class="rose">🌹</div>
@@ -314,6 +651,19 @@
     </div>
 
     <script>
+        const envelope = document.getElementById('envelope');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const contentWrapper = document.getElementById('contentWrapper');
+
+        envelope.addEventListener('click', function() {
+            envelope.classList.add('open');
+            
+            setTimeout(() => {
+                envelopeWrapper.classList.add('hidden');
+                contentWrapper.classList.add('visible');
+            }, 1500);
+        });
+
         const heartBg = document.getElementById('heartBg');
         const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
         
@@ -338,7 +688,35 @@
             setTimeout(createHeart, i * 200);
         }
 
-        // Create random sparkles
+        const imagePlaceholders = [
+            'https://via.placeholder.com/150/FF69B4/FFFFFF?text=Image+1',
+            'https://via.placeholder.com/150/FFB6C1/FFFFFF?text=Image+2',
+            'https://via.placeholder.com/150/FFC0CB/FFFFFF?text=Image+3',
+            'https://via.placeholder.com/150/FF1493/FFFFFF?text=Image+4',
+            'https://via.placeholder.com/150/C71585/FFFFFF?text=Image+5',
+            'https://via.placeholder.com/150/DB7093/FFFFFF?text=Image+6'
+        ];
+        
+        function createFloatingImage() {
+            const image = document.createElement('img');
+            image.className = 'floating-image';
+            image.src = imagePlaceholders[Math.floor(Math.random() * imagePlaceholders.length)];
+            image.style.left = Math.random() * 100 + '%';
+            image.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            image.style.animationDelay = Math.random() * 5 + 's';
+            heartBg.appendChild(image);
+
+            setTimeout(() => {
+                image.remove();
+            }, 25000);
+        }
+
+        setInterval(createFloatingImage, 200);
+
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFloatingImage, i * 400);
+        }
+
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
