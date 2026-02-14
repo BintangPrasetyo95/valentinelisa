@@ -383,112 +383,157 @@
 
         .envelope {
             position: relative;
-            width: 300px;
-            height: 200px;
+            width: 320px;
+            height: 220px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
 
-        .envelope:hover {
+        .envelope:hover:not(.open) {
             transform: scale(1.05);
         }
 
-        .envelope-base {
+        .envelope-body {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #f5f5dc;
-            border: 3px solid #d4af37;
-            border-radius: 5px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            background: #f4e8d8;
+            border: 2px solid #c9a66b;
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.1),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+            z-index: 2;
         }
 
         .envelope-flap {
             position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 100px solid #e74c3c;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 50%;
+            background: #e8d4b8;
+            border: 2px solid #c9a66b;
+            border-bottom: none;
+            clip-path: polygon(0 0, 50% 70%, 100% 0);
             transform-origin: top center;
-            transition: transform 0.8s ease;
-            z-index: 3;
+            transition: transform 0.6s ease;
+            z-index: 4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .envelope-flap::before {
             content: '';
             position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 147px solid transparent;
-            border-right: 147px solid transparent;
-            border-bottom: 97px solid #c0392b;
-            top: 3px;
-            left: -147px;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #d4af37 0%, #c9a66b 100%);
+            clip-path: polygon(0 0, 50% 68%, 100% 0);
         }
 
         .envelope.open .envelope-flap {
-            transform: rotateX(180deg);
+            transform: rotateX(-180deg);
         }
 
-        .envelope-back {
+        .envelope-back-flap {
             position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 100px solid #e8d4a0;
             bottom: 0;
             left: 0;
+            width: 100%;
+            height: 50%;
+            background: #e8d4b8;
+            border: 2px solid #c9a66b;
+            border-top: none;
+            clip-path: polygon(0 100%, 50% 30%, 100% 100%);
             z-index: 1;
         }
 
-        .envelope-letter {
+        .envelope-paper {
             position: absolute;
-            width: 90%;
-            height: 85%;
+            width: 85%;
+            height: 75%;
             background: white;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border-radius: 3px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 3;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            color: #e74c3c;
-            transition: transform 0.8s ease;
+            padding: 20px;
+            transition: transform 0.8s ease 0.6s, opacity 0.3s ease;
         }
 
-        .envelope.open .envelope-letter {
-            transform: translate(-50%, -150%);
+        .envelope-paper-heart {
+            font-size: 50px;
+            color: #e74c3c;
+            animation: paperHeartbeat 1.5s infinite;
+        }
+
+        @keyframes paperHeartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            10%,
+            30% {
+                transform: scale(1.1);
+            }
+
+            20%,
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .envelope-paper-text {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .envelope.open .envelope-paper {
+            transform: translate(-50%, -280%);
+        }
+
+        .envelope.revealing .envelope-paper {
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .envelope-seal {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background: #d4af37;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, #d4af37 0%, #b8941f 100%);
             border-radius: 50%;
-            top: 50%;
+            top: 48%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 4;
+            z-index: 5;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
+            font-weight: bold;
             color: #8b0000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: opacity 0.3s ease;
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.3),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 2px solid #b8941f;
         }
 
         .envelope.open .envelope-seal {
             opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
         }
 
         .click-text {
@@ -517,6 +562,41 @@
             60% {
                 transform: translateY(-5px);
             }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            font-family: 'Georgia', serif;
+        }
+
+        .back-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-button:hover {
+            background: rgba(192, 57, 43, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
         }
 
         .content-wrapper {
@@ -581,37 +661,22 @@
             }
 
             .envelope {
-                width: 250px;
-                height: 166px;
+                width: 280px;
+                height: 193px;
             }
 
-            .envelope-flap {
-                border-left: 125px solid transparent;
-                border-right: 125px solid transparent;
-                border-bottom: 83px solid #e74c3c;
+            .envelope-paper-heart {
+                font-size: 40px;
             }
 
-            .envelope-flap::before {
-                border-left: 122px solid transparent;
-                border-right: 122px solid transparent;
-                border-bottom: 80px solid #c0392b;
-                left: -122px;
-            }
-
-            .envelope-back {
-                border-left: 125px solid transparent;
-                border-right: 125px solid transparent;
-                border-top: 83px solid #e8d4a0;
-            }
-
-            .envelope-letter {
-                font-size: 45px;
+            .envelope-paper-text {
+                font-size: 12px;
             }
 
             .envelope-seal {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
             }
 
             .click-text {
@@ -621,6 +686,13 @@
             .floating-image {
                 width: 60px;
                 height: 60px;
+            }
+
+            .back-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 14px;
             }
         }
 
@@ -644,42 +716,45 @@
             }
 
             .envelope {
-                width: 220px;
-                height: 146px;
+                width: 240px;
+                height: 165px;
             }
 
-            .envelope-flap {
-                border-left: 110px solid transparent;
-                border-right: 110px solid transparent;
-                border-bottom: 73px solid #e74c3c;
+            .envelope-paper-heart {
+                font-size: 35px;
             }
 
-            .envelope-flap::before {
-                border-left: 107px solid transparent;
-                border-right: 107px solid transparent;
-                border-bottom: 70px solid #c0392b;
-                left: -107px;
-            }
-
-            .envelope-back {
-                border-left: 110px solid transparent;
-                border-right: 110px solid transparent;
-                border-top: 73px solid #e8d4a0;
+            .envelope-seal {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
             }
 
             .love-quotes p {
                 font-size: 16px;
+            }
+
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 13px;
             }
         }
     </style>
 </head>
 
 <body>
+    <button class="back-button" id="backButton">← Back to Envelope</button>
+
     <div class="envelope-wrapper" id="envelopeWrapper">
         <div class="envelope" id="envelope">
-            <div class="envelope-back"></div>
-            <div class="envelope-letter">♥</div>
-            <div class="envelope-base"></div>
+            <div class="envelope-back-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="envelope-paper">
+                <div class="envelope-paper-heart">♥</div>
+                <div class="envelope-paper-text">For You</div>
+            </div>
             <div class="envelope-flap"></div>
             <div class="envelope-seal">L♥T</div>
         </div>
@@ -729,17 +804,76 @@
             const envelope = document.getElementById('envelope');
             const envelopeWrapper = document.getElementById('envelopeWrapper');
             const contentWrapper = document.getElementById('contentWrapper');
+            const heartBg = document.getElementById('heartBg');
+            const backButton = document.getElementById('backButton');
+
+            let heartInterval;
+            let imageInterval;
+            let sparkleInterval;
+            let isAnimating = false;
+
+            function stopAllAnimations() {
+                if (heartInterval) clearInterval(heartInterval);
+                if (imageInterval) clearInterval(imageInterval);
+                if (sparkleInterval) clearInterval(sparkleInterval);
+
+                const floatingElements = document.querySelectorAll('.floating-heart, .floating-image, .sparkle');
+                floatingElements.forEach(el => el.remove());
+            }
+
+            function startAllAnimations() {
+                heartInterval = setInterval(createHeart, 50);
+                imageInterval = setInterval(createFloatingImage, 200);
+                sparkleInterval = setInterval(createSparkle, 100);
+            }
 
             envelope.addEventListener('click', function () {
+                if (isAnimating) return;
+                isAnimating = true;
+
                 envelope.classList.add('open');
+
+                setTimeout(() => {
+                    envelope.classList.add('revealing');
+                }, 1400);
 
                 setTimeout(() => {
                     envelopeWrapper.classList.add('hidden');
                     contentWrapper.classList.add('visible');
-                }, 1500);
+                    backButton.classList.add('visible');
+                    startAllAnimations();
+
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(createHeart, i * 200);
+                    }
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(createFloatingImage, i * 400);
+                    }
+
+                    isAnimating = false;
+                }, 2000);
             });
 
-            const heartBg = document.getElementById('heartBg');
+            backButton.addEventListener('click', function () {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                stopAllAnimations();
+
+                contentWrapper.classList.remove('visible');
+                backButton.classList.remove('visible');
+
+                setTimeout(() => {
+                    envelopeWrapper.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        envelope.classList.remove('revealing');
+                        envelope.classList.remove('open');
+                        isAnimating = false;
+                    }, 100);
+                }, 500);
+            });
+
             const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
 
             function createHeart() {
@@ -755,12 +889,6 @@
                 setTimeout(() => {
                     heart.remove();
                 }, 20000);
-            }
-
-            setInterval(createHeart, 50);
-
-            for (let i = 0; i < 20; i++) {
-                setTimeout(createHeart, i * 200);
             }
 
             const imagePlaceholders = [
@@ -786,12 +914,6 @@
                 }, 25000);
             }
 
-            setInterval(createFloatingImage, 200);
-
-            for (let i = 0; i < 5; i++) {
-                setTimeout(createFloatingImage, i * 400);
-            }
-
             function createSparkle() {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
@@ -804,8 +926,6 @@
                     sparkle.remove();
                 }, 2000);
             }
-
-            setInterval(createSparkle, 100);
         </script>
 </body>
 
