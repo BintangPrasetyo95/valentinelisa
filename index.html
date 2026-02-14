@@ -385,7 +385,6 @@
             }
         }
 
-        /* Rose decoration */
         .rose {
             position: absolute;
             font-size: 40px;
@@ -427,7 +426,6 @@
             }
         }
 
-        /* Sparkles */
         .sparkle {
             position: absolute;
             width: 4px;
@@ -451,7 +449,6 @@
             }
         }
 
-        /* Envelope styles */
         .envelope-wrapper {
             position: fixed;
             top: 0;
@@ -890,181 +887,229 @@
                 <p>♥</p>
             </div>
         </div>
+    </div>
 
-        <script>
-            const preloader = document.getElementById('preloader');
-            const envelope = document.getElementById('envelope');
-            const envelopeWrapper = document.getElementById('envelopeWrapper');
-            const contentWrapper = document.getElementById('contentWrapper');
-            const heartBg = document.getElementById('heartBg');
-            const backArrow = document.getElementById('backArrow');
-            const loveQuotes = document.querySelector('.love-quotes');
+    <script>
+        const preloader = document.getElementById('preloader');
+        const envelope = document.getElementById('envelope');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const contentWrapper = document.getElementById('contentWrapper');
+        const heartBg = document.getElementById('heartBg');
+        const backArrow = document.getElementById('backArrow');
+        const loveQuotes = document.querySelector('.love-quotes');
 
-            let heartInterval;
-            let imageInterval;
-            let sparkleInterval;
-            let isAnimating = false;
+        let heartInterval;
+        let imageInterval;
+        let sparkleInterval;
+        let isAnimating = false;
 
-            const imageLiza = [
-                './images/1.jpg',
-                './images/2.jpg',
-                './images/3.jpg',
-                './images/4.jpg',
-                './images/5.jpg',
-                './images/6.jpg',
-                './images/7.jpg',
-                './images/8.jpg',
-                './images/9.jpg',
-                './images/10.jpg',
-                './images/11.jpg',
-                './images/12.jpg',
-                './images/13.jpg',
-                './images/14.jpg',
-                './images/15.jpg',
-                './images/16.jpg',
-                './images/17.jpg',
-                './images/18.jpg',
-                './images/19.jpg',
-                './images/20.jpg',
-                './images/21.jpg',
-                './images/22.jpg',
-                './images/23.jpg',
-                './images/24.jpg',
-                './images/25.jpg',
-                './images/26.jpg',
-                './images/27.jpg',
-                './images/28.jpg',
-                './images/29.jpg',
-                './images/30.jpg',
-                './images/31.jpeg',
-                './images/32.jpeg',
-                './images/33.jpeg',
-                './images/34.jpeg',
-                './images/35.jpeg',
-                './images/36.jpeg',
-                './images/37.jpeg',
-                './images/38.jpeg',
-                './images/39.jpeg',
-                './images/40.jpeg',
-                './images/41.jpeg',
-                './images/42.jpeg',
-                './images/43.jpeg',
-                './images/44.jpeg',
-                './images/45.jpeg'
-            ];
+        const imageLiza = [
+            './images/1.jpg',
+            './images/2.jpg',
+            './images/3.jpg',
+            './images/4.jpg',
+            './images/5.jpg',
+            './images/6.jpg',
+            './images/7.jpg',
+            './images/8.jpg',
+            './images/9.jpg',
+            './images/10.jpg',
+            './images/11.jpg',
+            './images/12.jpg',
+            './images/13.jpg',
+            './images/14.jpg',
+            './images/15.jpg',
+            './images/16.jpg',
+            './images/17.jpg',
+            './images/18.jpg',
+            './images/19.jpg',
+            './images/20.jpg',
+            './images/21.jpg',
+            './images/22.jpg',
+            './images/23.jpg',
+            './images/24.jpg',
+            './images/25.jpg',
+            './images/26.jpg',
+            './images/27.jpg',
+            './images/28.jpg',
+            './images/29.jpg',
+            './images/30.jpg',
+            './images/31.jpeg',
+            './images/32.jpeg',
+            './images/33.jpeg',
+            './images/34.jpeg',
+            './images/35.jpeg',
+            './images/36.jpeg',
+            './images/37.jpeg',
+            './images/38.jpeg',
+            './images/39.jpeg',
+            './images/40.jpeg',
+            './images/41.jpeg',
+            './images/42.jpeg',
+            './images/43.jpeg',
+            './images/44.jpeg',
+            './images/45.jpeg'
+        ];
 
-            function preloadImages() {
-                return new Promise((resolve) => {
-                    let loadedCount = 0;
-                    const totalImages = imageLiza.length;
+        function preloadImages() {
+            return new Promise((resolve) => {
+                let loadedCount = 0;
+                const totalImages = imageLiza.length;
 
-                    if (totalImages === 0) {
-                        resolve();
-                        return;
-                    }
+                if (totalImages === 0) {
+                    resolve();
+                    return;
+                }
 
-                    imageLiza.forEach((src) => {
-                        const img = new Image();
-                        img.onload = img.onerror = () => {
-                            loadedCount++;
-                            if (loadedCount === totalImages) {
-                                resolve();
-                            }
-                        };
-                        img.src = src;
-                    });
+                imageLiza.forEach((src) => {
+                    const img = new Image();
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === totalImages) {
+                            resolve();
+                        }
+                    };
+                    img.src = src;
                 });
-            }
-
-            preloadImages().then(() => {
-                setTimeout(() => {
-                    preloader.classList.add('hidden');
-                }, 500);
             });
+        }
 
-            function stopAllAnimations() {
-                if (heartInterval) clearInterval(heartInterval);
-                if (imageInterval) clearInterval(imageInterval);
-                if (sparkleInterval) clearInterval(sparkleInterval);
+        preloadImages().then(() => {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 500);
+        });
 
-                const floatingElements = document.querySelectorAll('.floating-heart, .floating-image, .sparkle');
-                floatingElements.forEach(el => el.remove());
+        function stopAllAnimations() {
+            if (heartInterval) clearInterval(heartInterval);
+            if (imageInterval) clearInterval(imageInterval);
+            if (sparkleInterval) clearInterval(sparkleInterval);
+
+            const floatingElements = document.querySelectorAll('.floating-heart, .floating-image, .sparkle');
+            floatingElements.forEach(el => el.remove());
+        }
+
+        function startAllAnimations() {
+            heartInterval = setInterval(createHeart, 50);
+            imageInterval = setInterval(createFloatingImage, 200);
+            sparkleInterval = setInterval(createSparkle, 100);
+        }
+
+        envelope.addEventListener('click', function () {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const docElement = document.documentElement;
+            if (docElement.requestFullscreen) {
+                docElement.requestFullscreen();
+            } else if (docElement.webkitRequestFullscreen) {
+                docElement.webkitRequestFullscreen();
+            } else if (docElement.msRequestFullscreen) {
+                docElement.msRequestFullscreen();
             }
 
-            function startAllAnimations() {
-                heartInterval = setInterval(createHeart, 50);
-                imageInterval = setInterval(createFloatingImage, 200);
-                sparkleInterval = setInterval(createSparkle, 100);
+            envelope.classList.add('open');
+
+            setTimeout(() => {
+                envelope.classList.add('revealing');
+            }, 1400);
+
+            setTimeout(() => {
+                envelopeWrapper.classList.add('hidden');
+                contentWrapper.classList.add('visible');
+                startAllAnimations();
+
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(createHeart, i * 200);
+                }
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(createFloatingImage, i * 400);
+                }
+
+                isAnimating = false;
+            }, 2000);
+        });
+
+        backArrow.addEventListener('click', function () {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
 
-            envelope.addEventListener('click', function () {
-                if (isAnimating) return;
-                isAnimating = true;
+            stopAllAnimations();
 
-                envelope.classList.add('open');
+            contentWrapper.classList.remove('visible');
 
-                setTimeout(() => {
-                    envelope.classList.add('revealing');
-                }, 1400);
+            setTimeout(() => {
+                envelopeWrapper.classList.remove('hidden');
 
                 setTimeout(() => {
-                    envelopeWrapper.classList.add('hidden');
-                    contentWrapper.classList.add('visible');
-                    startAllAnimations();
-
-                    for (let i = 0; i < 20; i++) {
-                        setTimeout(createHeart, i * 200);
-                    }
-                    for (let i = 0; i < 5; i++) {
-                        setTimeout(createFloatingImage, i * 400);
-                    }
-
+                    envelope.classList.remove('revealing');
+                    envelope.classList.remove('open');
                     isAnimating = false;
-                }, 2000);
-            });
+                }, 100);
+            }, 500);
+        });
 
-            backArrow.addEventListener('click', function () {
-                if (isAnimating) return;
-                isAnimating = true;
+        loveQuotes.addEventListener('click', function (e) {
+            const rect = loveQuotes.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.bottom;
 
-                stopAllAnimations();
+            const heartCount = 30;
+            const imageCount = 10;
 
-                contentWrapper.classList.remove('visible');
+            for (let i = 0; i < heartCount; i++) {
+                createExplosionHeart(centerX, centerY);
+            }
 
-                setTimeout(() => {
-                    envelopeWrapper.classList.remove('hidden');
+            for (let i = 0; i < imageCount; i++) {
+                createExplosionImage(centerX, centerY);
+            }
+        });
 
-                    setTimeout(() => {
-                        envelope.classList.remove('revealing');
-                        envelope.classList.remove('open');
-                        isAnimating = false;
-                    }, 100);
-                }, 500);
-            });
+        function createExplosionHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'explosion-heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
 
-            loveQuotes.addEventListener('click', function (e) {
-                const rect = loveQuotes.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.bottom;
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 200 + Math.random() * 400;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance - 100;
+            const rotation = Math.random() * 720 - 360;
 
-                const heartCount = 30;
-                const imageCount = 10;
+            heart.style.setProperty('--tx', tx + 'px');
+            heart.style.setProperty('--ty', ty + 'px');
+            heart.style.setProperty('--rotation', rotation + 'deg');
 
-                for (let i = 0; i < heartCount; i++) {
-                    createExplosionHeart(centerX, centerY);
-                }
+            heart.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
 
-                for (let i = 0; i < imageCount; i++) {
-                    createExplosionImage(centerX, centerY);
-                }
-            });
+            document.body.appendChild(heart);
 
-            function createExplosionHeart(x, y) {
-                const heart = document.createElement('div');
-                heart.className = 'explosion-heart';
-                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                heart.style.left = x + 'px';
-                heart.style.top = y + 'px';
+            setTimeout(() => {
+                heart.remove();
+            }, 1500);
+        }
+
+        function createExplosionImage(x, y) {
+            const image = document.createElement('img');
+            image.className = 'explosion-image';
+            const imageSrc = imageLiza[Math.floor(Math.random() * imageLiza.length)];
+
+            image.onload = function () {
+                image.style.left = x + 'px';
+                image.style.top = y + 'px';
 
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 200 + Math.random() * 400;
@@ -1072,98 +1117,70 @@
                 const ty = Math.sin(angle) * distance - 100;
                 const rotation = Math.random() * 720 - 360;
 
-                heart.style.setProperty('--tx', tx + 'px');
-                heart.style.setProperty('--ty', ty + 'px');
-                heart.style.setProperty('--rotation', rotation + 'deg');
+                image.style.setProperty('--tx', tx + 'px');
+                image.style.setProperty('--ty', ty + 'px');
+                image.style.setProperty('--rotation', rotation + 'deg');
 
-                heart.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
+                image.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
 
-                document.body.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 1500);
-            }
-
-            function createExplosionImage(x, y) {
-                const image = document.createElement('img');
-                image.className = 'explosion-image';
-                const imageSrc = imageLiza[Math.floor(Math.random() * imageLiza.length)];
-
-                image.onload = function () {
-                    image.style.left = x + 'px';
-                    image.style.top = y + 'px';
-
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = 200 + Math.random() * 400;
-                    const tx = Math.cos(angle) * distance;
-                    const ty = Math.sin(angle) * distance - 100;
-                    const rotation = Math.random() * 720 - 360;
-
-                    image.style.setProperty('--tx', tx + 'px');
-                    image.style.setProperty('--ty', ty + 'px');
-                    image.style.setProperty('--rotation', rotation + 'deg');
-
-                    image.style.animation = `explode ${1 + Math.random() * 0.5}s ease-out forwards`;
-
-                    document.body.appendChild(image);
-
-                    setTimeout(() => {
-                        image.remove();
-                    }, 1500);
-                };
-
-                image.onerror = function () {
-                    console.log('Image failed to load:', imageSrc);
-                };
-
-                image.src = imageSrc;
-            }
-
-            const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
-
-            function createHeart() {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                heartBg.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 20000);
-            }
-
-            function createFloatingImage() {
-                const image = document.createElement('img');
-                image.className = 'floating-image';
-                image.src = imageLiza[Math.floor(Math.random() * imageLiza.length)];
-                image.style.left = Math.random() * 100 + '%';
-                image.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                image.style.animationDelay = Math.random() * 5 + 's';
-                heartBg.appendChild(image);
+                document.body.appendChild(image);
 
                 setTimeout(() => {
                     image.remove();
-                }, 25000);
-            }
+                }, 1500);
+            };
 
-            function createSparkle() {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 2 + 's';
-                document.body.appendChild(sparkle);
+            image.onerror = function () {
+                console.log('Image failed to load:', imageSrc);
+            };
 
-                setTimeout(() => {
-                    sparkle.remove();
-                }, 2000);
-            }
-        </script>
+            image.src = imageSrc;
+        }
+
+        const heartSymbols = ['♥', '💕', '💖', '💗', '💓', '💝'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartBg.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        function createFloatingImage() {
+            const image = document.createElement('img');
+            image.className = 'floating-image';
+            image.src = imageLiza[Math.floor(Math.random() * imageLiza.length)];
+            image.style.left = Math.random() * 100 + '%';
+            image.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            image.style.animationDelay = Math.random() * 5 + 's';
+            heartBg.appendChild(image);
+
+            setTimeout(() => {
+                image.remove();
+            }, 25000);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+    </script>
 </body>
 
 </html>
